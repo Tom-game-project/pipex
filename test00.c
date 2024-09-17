@@ -23,14 +23,16 @@ int main(int argc, char *argv[],char *envp[]) {
         // 子プロセス: パイプに書き込む
         close(pipe_fd[0]);  // 読み取り側は使わないので閉じる
         char message[] = "Hello from the child process!";
-        write(pipe_fd[1], message, strlen(message) + 1);  // パイプに書き込み
+        dup2(pipe_fd[1], STDOUT_FILENO);
         close(pipe_fd[1]);  // 書き込みが終わったら閉じる
+        write(STDOUT_FILENO, message, strlen(message) + 1);  // パイプに書き込み
     } else {
         // 親プロセス: パイプから読み取る
         close(pipe_fd[1]);  // 書き込み側は使わないので閉じる
         read(pipe_fd[0], buffer, sizeof(buffer));  // パイプから読み取り
         printf("Received from child process: %s\n", buffer);
         close(pipe_fd[0]);  // 読み取りが終わったら閉じる
+        wait(NULL);
     }
 
     return 0;
