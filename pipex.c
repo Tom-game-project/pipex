@@ -1,9 +1,10 @@
 #include <unistd.h>
 #include <stdio.h>
 
-int main() {
-    char *argv[] = {"bin/ls", "-l", "-a", "src/", NULL};  // 実行するプログラムと引数
-    char *envp[] = {NULL};  // 環境変数
+int main(int argc, char *argv[], char *envp[])
+{
+
+    char *argv[] = {"bin/ls", "-l", "-a", "src/", NULL};  // <- argvから割り出すことが可能
 
     if (execve("/bin/ls", argv, envp) == -1) {
         perror("execve failed");
@@ -12,3 +13,7 @@ int main() {
     return 0;
 }
 
+int pipe_child()
+{
+
+}
