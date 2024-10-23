@@ -24,8 +24,8 @@ int main(int argc, char *argv[],char *envp[]) {
         close(pipe_fd[0]);  // 読み取り側は使わないので閉じる
         char message[] = "Hello from the child process!";
         dup2(pipe_fd[1], STDOUT_FILENO);
-        close(pipe_fd[1]);  // 書き込みが終わったら閉じる
         write(STDOUT_FILENO, message, strlen(message) + 1);  // パイプに書き込み
+        close(pipe_fd[1]);  // 書き込みが終わったら閉じる
     } else {
         // 親プロセス: パイプから読み取る
         close(pipe_fd[1]);  // 書き込み側は使わないので閉じる
