@@ -37,3 +37,27 @@ char *copy_string(char *start,char *end)
     rstr[len - 1] = '\0';
     return (rstr);
 }
+
+int count_cmd_args(char *str)
+{
+	int flag;
+	int j;
+
+	flag = 0;
+	j = 0;
+	while (*str != '\0')
+	{
+		if (flag && *str == ' ')
+		{
+			j++;
+			flag = 0;
+		}
+		else if (!flag && *str != ' ')
+			flag = 1;
+		str++;
+	}
+	if (flag)
+		j++;
+	return (j);
+}
+

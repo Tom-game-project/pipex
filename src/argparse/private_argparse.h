@@ -3,5 +3,6 @@
 
 int ft_strlen(char *str);
 char *copy_string(char *start,char *end);
+int count_cmd_args(char *str);
 
 #endif
