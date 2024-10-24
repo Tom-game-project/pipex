@@ -10,6 +10,9 @@ char *cmd3[] = {"grep", "char", NULL};
 char **cmds[] = {cmd1, cmd2, cmd3};
 int cmd_n = 3;
 
+int child_proc(int d, int pipe_fd[2]);
+int parent_proc(int d, int pipe_fd[2]);
+
 void run_pipes(int d)
 {
 	pid_t pid;
@@ -19,25 +22,33 @@ void run_pipes(int d)
 		 execvp(cmds[0][0], cmds[0]);
 	else
 	{
-		pipe(pipe_fd); // create pipe
+		pipe(pipe_fd);
 		pid = fork();
-		if (pid == 0) // if child
-		{
-			close(pipe_fd[READ]);
-			dup2(pipe_fd[WRITE], STDOUT_FILENO);
-			close(pipe_fd[WRITE]);
-			run_pipes(d + 1);
-		}
-		else // if parent
-		{
-			close(pipe_fd[WRITE]);
-			dup2(pipe_fd[READ], STDIN_FILENO);
-			close(pipe_fd[READ]);
-			execvp(cmds[cmd_n-d-1][0], cmds[cmd_n-d-1]);
-		}
+		if (pid == 0)
+			child_proc(d, pipe_fd);
+		else 
+			parent_proc(d, pipe_fd);
 	}
 }
 
+int child_proc(int d, int pipe_fd[2])
+{
+	close(pipe_fd[READ]);
+	dup2(pipe_fd[WRITE], STDOUT_FILENO);
+	close(pipe_fd[WRITE]);
+	run_pipes(d + 1);
+	return (0);
+}
+
+int parent_proc(int d, int pipe_fd[2])
+{
+	// env cmd_n d
+	close(pipe_fd[WRITE]);
+	dup2(pipe_fd[READ], STDIN_FILENO);
+	close(pipe_fd[READ]);
+	execvp(cmds[cmd_n - d - 1][0], cmds[cmd_n - d - 1]);
+	return (0);
+}
 
 // int main(int argc, char *argv[], char *envp[])
  int main(void)
