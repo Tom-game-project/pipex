@@ -18,8 +18,8 @@ void run_pipes(int d)
 	pid_t pid;
 	int pipe_fd[2];
 
-	if (d == cmd_n - 1)
-		 execvp(cmds[0][0], cmds[0]);
+	if (d == 0)
+		 execvp(cmds[d][0], cmds[d]);
 	else
 	{
 		pipe(pipe_fd);
@@ -36,17 +36,17 @@ int child_proc(int d, int pipe_fd[2])
 	close(pipe_fd[READ]);
 	dup2(pipe_fd[WRITE], STDOUT_FILENO);
 	close(pipe_fd[WRITE]);
-	run_pipes(d + 1);
+	run_pipes(d - 1);
 	return (0);
 }
 
 int parent_proc(int d, int pipe_fd[2])
 {
-	// env cmd_n d
+	// env d
 	close(pipe_fd[WRITE]);
 	dup2(pipe_fd[READ], STDIN_FILENO);
 	close(pipe_fd[READ]);
-	execvp(cmds[cmd_n - d - 1][0], cmds[cmd_n - d - 1]);
+	execvp(cmds[d][0], cmds[d]);
 	return (0);
 }
 
@@ -57,7 +57,7 @@ int parent_proc(int d, int pipe_fd[2])
 
 	pid = fork(); // if error pid == -1
 	if (pid == 0) // if child
-		run_pipes(0);
+		run_pipes(cmd_n - 1);
 	else // if parent
 		wait(NULL);
 	return (0);
