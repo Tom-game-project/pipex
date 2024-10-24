@@ -6,7 +6,7 @@ ARFLAGS= -rcs
 
 # test files
 TEST = \
-       tests/atest00.c
+       tests/atest02.c
 
 # `argparse` module sourcess
 ARGPARSE_SRC = \
