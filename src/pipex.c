@@ -1,6 +1,8 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include<fcntl.h>
+#include "./basic/basic.h"
+#include "./argparse/private_argparse.h"
 
 #define READ 0
 #define WRITE 1
@@ -63,16 +65,49 @@ int parent_proc(int d, int pipe_fd[2])
 	return (0);
 }
 
-// int main(int argc, char *argv[], char *envp[])
- int main(void)
+int main(int argc, char *argv[], char *envp[])
 {
+	char ***cmds;
 	pid_t pid;
 
+	cmds = get_cmds(argc, argv);
 	pid = fork(); // if error pid == -1
 	if (pid == 0) // if child
 		run_pipes(cmd_n - 1);
+	else if (pid == -1)
+	{
+		// pass;
+	}
 	else // if parent
 		wait(NULL);
+	clear_cmds(argc, cmds);
 	return (0);
 }
 
+/*
+/// argparse test
+///
+int main2(int argc, char *argv[])
+{
+	char ***cmds;
+	int i;
+	int j;
+
+	cmds = get_cmds(argc, argv);
+	i = 0;
+	while (i + 1 < argc)
+	{
+		j = 0;
+		printf("number %d\n", i);
+		while (cmds[i][j] != NULL)
+		{
+			printf("%s\n", cmds[i][j]);
+			j++;
+		}
+		i++;
+	}
+	clear_cmds(argc, cmds);
+	return (0);
+}
+
+*/
