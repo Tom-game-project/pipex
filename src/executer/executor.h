@@ -1,6 +1,6 @@
 #ifndef EXECUTOR_H
 #define EXECUTOR_H
 
-char *get_path(char *file, char *envp[]);
+char *get_cmd_path(char *cmd, char *envp[]);
 
 #endif

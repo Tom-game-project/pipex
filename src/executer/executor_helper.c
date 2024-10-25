@@ -59,9 +59,6 @@ char **split_path_string(char *str)
 
 void clear_path_list(char **lst)
 {
-	char **tmp;
-
-	tmp = lst;
 	while (*lst != NULL)
 	{
 		free(*lst);
@@ -102,5 +99,16 @@ char *get_path(char *file, char *envp[])
 	clear_path_list(rlist_tmp);
 	free(rlist_tmp);
 	return (rtmp);
+}
+
+char *get_cmd_path(char *cmd, char *envp[])
+{
+	char *file;
+	char *p;
+
+	file = ft_strjoin("/", cmd);
+	p = get_path(file, envp);
+	free(file);
+	return (p);
 }
 

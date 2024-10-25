@@ -39,7 +39,7 @@ int main(int argc, char *argv[], char *envp[])
 	// fork
 	pid = fork(); // if error pid == -1
 	if (pid == 0) // if child
-		run_pipes(cmd_n - 1, inp);
+		run_pipes(cmd_n - 1, inp, envp);
 	else if (pid == -1)
 	{
 		// pass;
