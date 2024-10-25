@@ -1,19 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-
-
-int ft_strlen(char *str)
-{
-    int i;
-
-    i = 0;
-    while (*str != '\0')
-    {
-        str++;
-        i++;
-    }
-    return (i);
-}
+#include "../basic/basic.h"
 
 int ft_isspace(char c)
 {
@@ -25,27 +12,6 @@ int ft_isspace(char c)
 		c == '\t' ||
 		c == '\v' 
 	);
-}
-
-/// @brief malloc x 1
-/// @param start 
-/// @param end 
-/// @return 
-char *copy_string(char *start, char *end)
-{
-    int len;
-    char *rstr;
-    char *tmp;
-
-    len = end - start + 1;
-    rstr = (char *)malloc(len * sizeof(char));
-    if (rstr==NULL)
-        return (NULL);
-    tmp = rstr;
-    while (start < end)
-        *rstr++= *start++;
-    *rstr = '\0';
-    return (tmp);
 }
 
 int count_cmd_args(char *str)
@@ -105,13 +71,13 @@ char ***get_cmds(int argc, char *argv[])
 	int i;
 	char ***rlist;
 
-	rlist = (char ***)malloc(sizeof(char **) * (argc - 1));
+	rlist = (char ***)malloc(sizeof(char **) * (argc - 1 - 2));
 	if (rlist == NULL)
 		return (NULL);
-	i = 0;
-	while (i + 1 < argc)
+	i = 0; //  first element is infile
+	while (i + 2 < argc - 1) // last element is outfile
 	{
-		rlist[i] = get_cmd(argv[i + 1]);
+		rlist[i] = get_cmd(argv[i + 2]);
 		i++;
 	}
 	return (rlist);
@@ -123,8 +89,8 @@ void clear_cmds(int argc, char ***cmds)
 	int i;
 	int j;
 
-	i = 0;
-	while (i + 1 < argc)
+	i = 0;//  first element is infile
+	while (i + 2 < argc - 1)// last element is outfile
 	{
 		j = 0;
 		while (cmds[i][j] != NULL)
