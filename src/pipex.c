@@ -38,7 +38,11 @@ int main(int argc, char *argv[], char *envp[])
 	// fork
 	pid = fork(); // if error pid == -1
 	if (pid == 0) // if child
-		run_pipes(cmd_n - 1, inp, envp);
+	{
+		int code;
+		code = run_pipes(cmd_n - 1, inp, envp);
+		printf("code (%d)\n", code);
+	}
 	else if (pid == -1)
 	{
 		// pass;
