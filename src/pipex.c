@@ -6,7 +6,6 @@
 #include "./argparse/private_argparse.h"
 #include "./pipeline/pipeline.h"
 
-
 // for test
 #include <stdio.h>
 
