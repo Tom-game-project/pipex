@@ -12,7 +12,6 @@ TEST = \
 ARG_TEST = \
 	       src/arg_test.c
 
-
 # `argparse` module sourcess
 ARGPARSE_SRC = \
 	       src/argparse/argparse_helper.c
@@ -20,22 +19,28 @@ ARGPARSE_SRC = \
 BASIC_SRC = \
 	       src/basic/basic00.c
 
-ARGPARSE_OBJ = $(ARGPARSE_SRC:.c=.o)
+PIPELINE_SRC = \
+	       src/pipeline/pipeline.c
 
+ARGPARSE_OBJ = $(ARGPARSE_SRC:.c=.o)
 BASIC_OBJ = $(BASIC_SRC:.c=.o)
+PIPELINE_OBJ = $(PIPELINE_SRC:.c=.o)
 
 # object files
 OBJS = \
        $(ARGPARSE_OBJ)\
-       $(BASIC_OBJ)
+       $(BASIC_OBJ) \
+       $(PIPELINE_OBJ)
 
 ARGPARSE_NAME = argparse.a
 BASIC_NAME = basic.a
+PIPELINE_NAME = pipeline.a
 
 # archive files
 ARCHIVES = \
 	   $(ARGPARSE_NAME)\
-	   $(BASIC_NAME)
+	   $(BASIC_NAME)\
+	   $(PIPELINE_NAME)
 
 # Main pipex
 MAIN_SRC = src/pipex.c
@@ -58,6 +63,10 @@ $(ARGPARSE_NAME): $(ARGPARSE_OBJ)
 
 $(BASIC_NAME): $(BASIC_OBJ)
 	$(AR) $(ARFLAGS) $@ $^
+
+$(PIPELINE_NAME): $(PIPELINE_OBJ)
+	$(AR) $(ARFLAGS) $@ $^
+
 
 # test commands
 
