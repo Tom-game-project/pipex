@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
 		return (1);
 	inp -> infile = argv[1];
 	cmds = get_cmds(argc, argv);
+	inp -> cmds =  cmds;
 	inp -> outfile = argv[argc - 1];
 	printf("infile %s \n",inp -> infile);
 	i = 0;
@@ -28,9 +29,9 @@ int main(int argc, char *argv[])
 	{
 		j = 0;
 		printf("number %d\n", i);
-		while (cmds[i][j] != NULL)
+		while (inp -> cmds[i][j] != NULL)
 		{
-			printf("%s\n", cmds[i][j]);
+			printf("%s\n", inp -> cmds[i][j]);
 			j++;
 		}
 		i++;

@@ -1,6 +1,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
-#include<fcntl.h>
+#include <fcntl.h>
 #include "./basic/basic.h"
 #include "./argparse/private_argparse.h"
 
@@ -12,6 +12,13 @@ char *cmd2[] = {"head", NULL};
 char *cmd3[] = {"grep", "char", NULL};
 char **cmds[] = {cmd1, cmd2, cmd3};
 int cmd_n = 3;
+
+typedef struct s_input
+{
+	char *infile;
+	char ***cmds;
+	char *outfile;
+}	 t_input;
 
 int child_proc(int d, int pipe_fd[2]);
 int parent_proc(int d, int pipe_fd[2]);
@@ -70,7 +77,15 @@ int main(int argc, char *argv[], char *envp[])
 	char ***cmds;
 	pid_t pid;
 
+	inp = (t_input*) malloc(sizeof(inp));
+	if (inp == NULL)
+		return (1);
+	inp -> infile = argv[1];
 	cmds = get_cmds(argc, argv);
+	inp -> cmds = cmds;
+	inp -> outfile = argv[argc - 1];
+	printf("infile %s \n",inp -> infile);
+	// fork
 	pid = fork(); // if error pid == -1
 	if (pid == 0) // if child
 		run_pipes(cmd_n - 1);
@@ -80,34 +95,9 @@ int main(int argc, char *argv[], char *envp[])
 	}
 	else // if parent
 		wait(NULL);
+	// ===== free all =====
 	clear_cmds(argc, cmds);
+	free(inp);
 	return (0);
 }
 
-/*
-/// argparse test
-///
-int main2(int argc, char *argv[])
-{
-	char ***cmds;
-	int i;
-	int j;
-
-	cmds = get_cmds(argc, argv);
-	i = 0;
-	while (i + 1 < argc)
-	{
-		j = 0;
-		printf("number %d\n", i);
-		while (cmds[i][j] != NULL)
-		{
-			printf("%s\n", cmds[i][j]);
-			j++;
-		}
-		i++;
-	}
-	clear_cmds(argc, cmds);
-	return (0);
-}
-
-*/

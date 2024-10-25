@@ -77,7 +77,6 @@ char ***get_cmds(int argc, char *argv[])
 	i = 0; //  first element is infile
 	while (i + 2 < argc - 1) // last element is outfile
 	{
-		printf("%s\n", argv[i + 2]);
 		rlist[i] = get_cmd(argv[i + 2]);
 		i++;
 	}
