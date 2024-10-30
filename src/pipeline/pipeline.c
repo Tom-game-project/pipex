@@ -100,7 +100,7 @@ static int out_proc(int d, int pipe_fd[2], t_input *ti, char *envp[])
 {
 	int fd;
 
-	fd = open(ti -> outfile, O_WRONLY);
+	fd = open(ti -> outfile, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (fd == -1) // some error occured
 	{
 		perror(ti -> outfile);

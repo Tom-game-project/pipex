@@ -35,15 +35,11 @@ int main(int argc, char *argv[], char *envp[])
 	inp -> cmds = cmds;
 	inp -> cmdlen = cmd_n;
 	inp -> outfile = argv[argc - 1];
-	printf("infile %s \n",inp -> infile);
+	// printf("infile %s \n",inp -> infile);
 	// fork
 	pid = fork(); // if error pid == -1
 	if (pid == 0) // if child
-	{
-		int code;
-		code = run_pipes(cmd_n - 1, inp, envp);
-		printf("code (%d)\n", code);
-	}
+		 run_pipes(cmd_n - 1, inp, envp);
 	else if (pid == -1)
 	{
 		// pass;
