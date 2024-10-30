@@ -26,13 +26,14 @@ int main(int argc, char *argv[], char *envp[])
 
 	(void) envp;
 
-	inp = (t_input*) malloc(sizeof(inp));
+	inp = (t_input*) malloc(sizeof(t_input));
 	if (inp == NULL)
 		return (1);
 	inp -> infile = argv[1];
 	cmds = get_cmds(argc, argv);
 	cmd_n = argc - 2 - 1;
 	inp -> cmds = cmds;
+	inp -> cmdlen = cmd_n;
 	inp -> outfile = argv[argc - 1];
 	printf("infile %s \n",inp -> infile);
 	// fork

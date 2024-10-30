@@ -5,6 +5,7 @@ typedef struct s_input
 {
 	char *infile;
 	char ***cmds;
+	int cmdlen;
 	char *outfile;
 }	 t_input;
 

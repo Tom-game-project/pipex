@@ -22,6 +22,7 @@
 static int origin_proc(int d, t_input *ti, char *envp[]);
 static int child_proc(int d, int pipe_fd[2], t_input *ti, char *envp[]);
 static int parent_proc(int d, int pipe_fd[2], t_input *ti, char *envp[]);
+static int out_proc(int d, int pipe_fd[2], t_input *ti, char *envp[]);
 
 int run_pipes(int d, t_input *ti, char *envp[])
 {
@@ -37,10 +38,9 @@ int run_pipes(int d, t_input *ti, char *envp[])
 		if (pid == 0)
 			child_proc(d, pipe_fd, ti, envp);
 		else if (pid == -1)
-		{
-			// fork error
 			perror("pipex");
-		}
+		else if (ti -> cmdlen - 1== d)
+			out_proc(d, pipe_fd, ti, envp);
 		else 
 			parent_proc(d, pipe_fd, ti, envp);
 	}
@@ -77,7 +77,6 @@ static int origin_proc(int d, t_input *ti, char *envp[])
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	return (executor(ti -> cmds[d][0], ti -> cmds[d], envp));
-	// return (1);
 }
 
 static int child_proc(int d, int pipe_fd[2], t_input *ti, char *envp[])
@@ -95,6 +94,23 @@ static int parent_proc(int d, int pipe_fd[2], t_input *ti, char *envp[])
 	dup2(pipe_fd[READ], STDIN_FILENO);
 	close(pipe_fd[READ]);
 	return (executor(ti -> cmds[d][0],ti -> cmds[d], envp));
-	// return (1);
+}
+
+static int out_proc(int d, int pipe_fd[2], t_input *ti, char *envp[])
+{
+	int fd;
+
+	fd = open(ti -> outfile, O_WRONLY);
+	if (fd == -1) // some error occured
+	{
+		perror(ti -> outfile);
+		return (1);
+	}
+	close(pipe_fd[WRITE]);
+	dup2(pipe_fd[READ], STDIN_FILENO);
+	dup2(fd, STDOUT_FILENO);
+	close(pipe_fd[READ]);
+	close(fd);
+	return (executor(ti -> cmds[d][0],ti -> cmds[d], envp));
 }
 
