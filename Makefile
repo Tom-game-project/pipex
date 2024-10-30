@@ -89,7 +89,10 @@ test: $(TEST) $(ARCHIVES)
 clean:
 	rm -rf $(OBJS) $(ARCHIVES)
 
-re: clean all
+fclean: clean
+	rm -f $(MAIN_TARGET)
+
+re: fclean all
 
 .PHONY: all clean fclean test re
 
