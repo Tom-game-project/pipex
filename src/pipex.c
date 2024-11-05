@@ -23,31 +23,38 @@ int main(int argc, char *argv[], char *envp[])
 	pid_t pid;
 	t_input *inp;
 	int cmd_n;
+	int exit_status;
+	int status;
 
 	(void) envp;
 
-	inp = (t_input*) malloc(sizeof(inp));
+	exit_status = 0;
+	inp = (t_input*) malloc(sizeof(t_input));
 	if (inp == NULL)
 		return (1);
 	inp -> infile = argv[1];
 	cmds = get_cmds(argc, argv);
 	cmd_n = argc - 2 - 1;
 	inp -> cmds = cmds;
+	inp -> cmdlen = cmd_n;
 	inp -> outfile = argv[argc - 1];
-	printf("infile %s \n",inp -> infile);
+	// printf("infile %s \n",inp -> infile);
 	// fork
 	pid = fork(); // if error pid == -1
 	if (pid == 0) // if child
-		run_pipes(cmd_n - 1, inp, envp);
+		 run_pipes(cmd_n - 1, inp, envp);
 	else if (pid == -1)
 	{
 		// pass;
 	}
 	else // if parent
-		wait(NULL);
+	     {
+		waitpid(pid, &status, WUNTRACED);
+                exit_status = WEXITSTATUS(status);
+	     }
 	// ===== free all =====
 	clear_cmds(argc, cmds);
 	free(inp);
-	return (0);
+	return (exit_status);
 }
 

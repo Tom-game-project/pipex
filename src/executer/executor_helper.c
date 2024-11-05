@@ -72,7 +72,7 @@ char **get_all_path(char *envp[])
 	char *str;
 
 	str = envp[get_path_index(envp)];
-	str += 5;
+	str += 5; // "path="
 	rlist = split_path_string(str);
 	return (rlist);
 }
@@ -83,7 +83,7 @@ char *get_path(char *file, char *envp[])
 	char *rtmp;	
 	char **rlist;
 	char **rlist_tmp;
-       
+
 	rlist = get_all_path(envp);
 	rtmp = NULL;
 	rlist_tmp = rlist;
