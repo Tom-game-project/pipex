@@ -58,6 +58,7 @@ void executor(char *file,char *argv[], char *envp[])
 	{
 		// command not found
 		write(STDERR_FILENO, CMD_NOT_FOUND, ft_strlen(CMD_NOT_FOUND));
+		free(path);
 		exit (127);
 	}
 	execve(path, argv, envp);
