@@ -23,9 +23,12 @@ int main(int argc, char *argv[], char *envp[])
 	pid_t pid;
 	t_input *inp;
 	int cmd_n;
+	int exit_status;
+	int status;
 
 	(void) envp;
 
+	exit_status = 0;
 	inp = (t_input*) malloc(sizeof(t_input));
 	if (inp == NULL)
 		return (1);
@@ -45,10 +48,24 @@ int main(int argc, char *argv[], char *envp[])
 		// pass;
 	}
 	else // if parent
-		wait(NULL);
+	     {
+		waitpid(pid, &status, WUNTRACED);
+		        if (WIFEXITED(status)) {
+            // 子プロセスが正常終了した場合
+            exit_status = WEXITSTATUS(status);
+            printf("Child process exited with status: %d\n", exit_status);
+        } else if (WIFSIGNALED(status)) {
+            // 子プロセスがシグナルで終了した場合
+            int signal_num = WTERMSIG(status);
+            printf("Child process terminated by signal: %d\n", signal_num);
+        } else {
+            printf("Child process did not terminate normally.\n");
+        }
+			
+	     }
 	// ===== free all =====
 	clear_cmds(argc, cmds);
 	free(inp);
-	return (0);
+	return (exit_status);
 }
 

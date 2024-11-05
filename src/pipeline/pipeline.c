@@ -22,7 +22,7 @@
 static int origin_proc(int d, t_input *ti, char *envp[]);
 static int child_proc(int d, int pipe_fd[2], t_input *ti, char *envp[]);
 static int parent_proc(int d, int pipe_fd[2], t_input *ti, char *envp[]);
-static int out_proc(int d, int pipe_fd[2], t_input *ti, char *envp[]);
+static void out_proc(int d, int pipe_fd[2], t_input *ti, char *envp[]);
 
 int run_pipes(int d, t_input *ti, char *envp[])
 {
@@ -40,14 +40,16 @@ int run_pipes(int d, t_input *ti, char *envp[])
 		else if (pid == -1)
 			perror("pipex");
 		else if (ti -> cmdlen - 1== d)
+		{
 			out_proc(d, pipe_fd, ti, envp);
+		}
 		else 
 			parent_proc(d, pipe_fd, ti, envp);
 	}
 	return (1);
 }
 
-int executor(char *file,char *argv[], char *envp[])
+void executor(char *file,char *argv[], char *envp[])
 {
 	char *path;
 
@@ -56,12 +58,12 @@ int executor(char *file,char *argv[], char *envp[])
 	{
 		// command not found
 		write(STDERR_FILENO, CMD_NOT_FOUND, ft_strlen(CMD_NOT_FOUND));
-		return (127);
+		exit (127);
 	}
 	execve(path, argv, envp);
 	free(path);
 	perror("pipex");
-	return (1);
+	exit (1);
 }
 
 static int origin_proc(int d, t_input *ti, char *envp[])
@@ -76,7 +78,8 @@ static int origin_proc(int d, t_input *ti, char *envp[])
 	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	return (executor(ti -> cmds[d][0], ti -> cmds[d], envp));
+	executor(ti -> cmds[d][0], ti -> cmds[d], envp);
+	return (1);
 }
 
 static int child_proc(int d, int pipe_fd[2], t_input *ti, char *envp[])
@@ -93,10 +96,11 @@ static int parent_proc(int d, int pipe_fd[2], t_input *ti, char *envp[])
 	close(pipe_fd[WRITE]);
 	dup2(pipe_fd[READ], STDIN_FILENO);
 	close(pipe_fd[READ]);
-	return (executor(ti -> cmds[d][0],ti -> cmds[d], envp));
+	executor(ti -> cmds[d][0],ti -> cmds[d], envp);
+	return (1);
 }
 
-static int out_proc(int d, int pipe_fd[2], t_input *ti, char *envp[])
+static void out_proc(int d, int pipe_fd[2], t_input *ti, char *envp[])
 {
 	int fd;
 
@@ -104,13 +108,13 @@ static int out_proc(int d, int pipe_fd[2], t_input *ti, char *envp[])
 	if (fd == -1) // some error occured
 	{
 		perror(ti -> outfile);
-		return (1);
+		exit(1);
 	}
 	close(pipe_fd[WRITE]);
 	dup2(pipe_fd[READ], STDIN_FILENO);
 	dup2(fd, STDOUT_FILENO);
 	close(pipe_fd[READ]);
 	close(fd);
-	return (executor(ti -> cmds[d][0],ti -> cmds[d], envp));
+	executor(ti -> cmds[d][0],ti -> cmds[d], envp);
 }
 
