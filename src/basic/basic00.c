@@ -3,44 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   basic00.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmuranak <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:30:54 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/11/07 19:30:56 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/11/07 20:29:16 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
 
-char *copy_string(char *start, char *end)
+char	*copy_string(char *start, char *end)
 {
-    int len;
-    char *rstr;
-    char *tmp;
+	int		len;
+	char	*rstr;
+	char	*tmp;
 
-    len = end - start + 1;
-    rstr = (char *)malloc(len * sizeof(char));
-    if (rstr==NULL)
-        return (NULL);
-    tmp = rstr;
-    while (start < end)
-        *rstr++= *start++;
-    *rstr = '\0';
-    return (tmp);
+	len = end - start + 1;
+	rstr = (char *)malloc(len * sizeof(char));
+	if (rstr == NULL)
+		return (NULL);
+	tmp = rstr;
+	while (start < end)
+		*rstr++ = *start++;
+	*rstr = '\0';
+	return (tmp);
 }
 
-int ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (*str != '\0')
-    {
-        str++;
-        i++;
-    }
-    return (i);
+	i = 0;
+	while (*str != '\0')
+	{
+		str++;
+		i++;
+	}
+	return (i);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -66,7 +66,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (buf);
 }
 
-int startswith(char *src, char *target)
+int	startswith(char *src, char *target)
 {
 	while (*target != '\0')
 	{
