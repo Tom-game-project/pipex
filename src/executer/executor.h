@@ -1,6 +1,18 @@
-#ifndef EXECUTOR_H
-#define EXECUTOR_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/07 19:31:06 by tmuranak          #+#    #+#             */
+/*   Updated: 2024/11/07 19:33:18 by tmuranak         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-char *get_cmd_path(char *cmd, char *envp[]);
+#ifndef EXECUTOR_H
+# define EXECUTOR_H
+
+char	*get_cmd_path(char *cmd, char *envp[]);
 
 #endif

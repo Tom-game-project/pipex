@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/07 19:32:16 by tmuranak          #+#    #+#             */
+/*   Updated: 2024/11/07 19:42:20 by tmuranak         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
@@ -17,7 +29,7 @@ char **cmds[] = {cmd1, cmd2, cmd3};
 int cmd_n = 3;
 */
 
-int main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
 	char ***cmds;
 	pid_t pid;

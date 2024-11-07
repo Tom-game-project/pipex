@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor_helper.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/07 19:31:15 by tmuranak          #+#    #+#             */
+/*   Updated: 2024/11/07 19:36:32 by tmuranak         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include <stdlib.h>
 #include "../basic/basic.h"
 
-int get_path_index(char *envp[])
+int	get_path_index(char *envp[])
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (envp[i] != NULL)
@@ -16,9 +28,9 @@ int get_path_index(char *envp[])
 	return (-1);
 }
 
-int char_count(char *str,char c)
+int	char_count(char *str, char c)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (*str != '\0')
@@ -30,12 +42,12 @@ int char_count(char *str,char c)
 	return (count);
 }
 
-char **split_path_string(char *str)
+char	**split_path_string(char *str)
 {
-	char **rlist;
-	char **tmp;
-	int rlen;
-	char *start_ptr;
+	char	**rlist;
+	char	**tmp;
+	int		rlen;
+	char	*start_ptr;
 
 	rlen = char_count(str, ':');
 	rlist = (char **)malloc(sizeof(char *) * (rlen + 1 + 1));
@@ -47,17 +59,17 @@ char **split_path_string(char *str)
 	{
 		if (*str == ':')
 		{
-			*rlist++=copy_string(start_ptr, str);
+			*rlist++ = copy_string(start_ptr, str);
 			start_ptr = str + 1;
 		}
 		str++;
 	}
-	*rlist++=copy_string(start_ptr, str);
+	*rlist++ = copy_string(start_ptr, str);
 	*rlist = NULL;
 	return (tmp);
 }
 
-void clear_path_list(char **lst)
+void	clear_path_list(char **lst)
 {
 	while (*lst != NULL)
 	{
@@ -66,10 +78,10 @@ void clear_path_list(char **lst)
 	}
 }
 
-char **get_all_path(char *envp[])
+char	**get_all_path(char *envp[])
 {
-	char **rlist;
-	char *str;
+	char	**rlist;
+	char	*str;
 
 	str = envp[get_path_index(envp)];
 	str += 5; // "path="
@@ -77,12 +89,12 @@ char **get_all_path(char *envp[])
 	return (rlist);
 }
 
-char *get_path(char *file, char *envp[])
+char	*get_path(char *file, char *envp[])
 {
-	char *joined;
-	char *rtmp;	
-	char **rlist;
-	char **rlist_tmp;
+	char	*joined;
+	char	*rtmp;	
+	char	**rlist;
+	char	**rlist_tmp;
 
 	rlist = get_all_path(envp);
 	rtmp = NULL;
@@ -101,10 +113,10 @@ char *get_path(char *file, char *envp[])
 	return (rtmp);
 }
 
-char *get_cmd_path(char *cmd, char *envp[])
+char	*get_cmd_path(char *cmd, char *envp[])
 {
-	char *file;
-	char *p;
+	char	*file;
+	char	*p;
 
 	file = ft_strjoin("/", cmd);
 	p = get_path(file, envp);
