@@ -22,26 +22,32 @@
 #include <stdio.h>
 
 
-int	main(int argc, char *argv[], char *envp[])
+t_input	*create_input_structure(int argc, char *argv[])
 {
 	char ***cmds;
+	t_input *inp;
+
+	inp = (t_input*) malloc(sizeof(t_input));
+	if (inp == NULL)
+		return (NULL);
+	inp -> infile = argv[1];
+	cmds = get_cmds(argc, argv);
+	inp -> cmds = cmds;
+	inp -> cmdlen =  argc - 2 - 1;
+	inp -> outfile = argv[argc - 1];
+	return (inp);
+}
+
+int	main(int argc, char *argv[], char *envp[])
+{
 	pid_t pid;
 	t_input *inp;
 	int exit_status;
 	int status;
 
 	exit_status = 0;
-	inp = (t_input*) malloc(sizeof(t_input));
-	if (inp == NULL)
-		return (1);
-	inp -> infile = argv[1];
-	cmds = get_cmds(argc, argv);
-	inp -> cmds = cmds;
-	inp -> cmdlen =  argc - 2 - 1;
-	inp -> outfile = argv[argc - 1];
-	// printf("infile %s \n",inp -> infile);
-	// fork
-	pid = fork(); // if error pid == -1
+	inp = create_input_structure(argc, argv);
+	pid = fork();
 	if (pid == 0) // if child
 		 run_pipes((argc - 2 - 1) - 1, inp, envp);
 	else if (pid == -1)
@@ -49,12 +55,11 @@ int	main(int argc, char *argv[], char *envp[])
 		// pass;
 	}
 	else // if parent
-	     {
-		waitpid(pid, &status, WUNTRACED);
-                exit_status = WEXITSTATUS(status);
-	     }
-	// ===== free all =====
-	clear_cmds(argc, cmds);
+	{
+	   waitpid(pid, &status, WUNTRACED);
+           exit_status = WEXITSTATUS(status);
+	}
+	clear_cmds(argc, inp -> cmds);
 	free(inp);
 	return (exit_status);
 }
