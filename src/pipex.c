@@ -21,46 +21,43 @@
 // for test
 #include <stdio.h>
 
-
 t_input	*create_input_structure(int argc, char *argv[])
 {
-	char ***cmds;
-	t_input *inp;
+	char	***cmds;
+	t_input	*inp;
 
-	inp = (t_input*) malloc(sizeof(t_input));
+	inp = (t_input *)malloc(sizeof(t_input));
 	if (inp == NULL)
 		return (NULL);
 	inp -> infile = argv[1];
 	cmds = get_cmds(argc, argv);
 	inp -> cmds = cmds;
-	inp -> cmdlen =  argc - 2 - 1;
+	inp -> cmdlen = argc - 2 - 1;
 	inp -> outfile = argv[argc - 1];
 	return (inp);
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	pid_t pid;
-	t_input *inp;
-	int exit_status;
-	int status;
+	pid_t	pid;
+	t_input	*inp;
+	int		exit_status;
+	int		status;
 
 	exit_status = 0;
 	inp = create_input_structure(argc, argv);
 	pid = fork();
-	if (pid == 0) // if child
-		 run_pipes((argc - 2 - 1) - 1, inp, envp);
+	if (pid == 0)
+		run_pipes((argc - 2 - 1) - 1, inp, envp);
 	else if (pid == -1)
 	{
-		// pass;
 	}
-	else // if parent
+	else
 	{
-	   waitpid(pid, &status, WUNTRACED);
-           exit_status = WEXITSTATUS(status);
+		waitpid(pid, &status, WUNTRACED);
+		exit_status = WEXITSTATUS(status);
 	}
 	clear_cmds(argc, inp -> cmds);
 	free(inp);
 	return (exit_status);
 }
-
