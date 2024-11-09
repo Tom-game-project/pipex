@@ -61,30 +61,12 @@ int	run_pipes(int d, t_input *ti, char *envp[])
 	return (1);
 }
 
-void	executor(char *file, char *argv[], char *envp[])
-{
-	char	*path;
-
-	path = get_cmd_path(file, envp);
-	if (path == NULL)
-	{
-		// command not found
-		write(STDERR_FILENO, CMD_NOT_FOUND, ft_strlen(CMD_NOT_FOUND));
-		free(path);
-		exit (127);
-	}
-	execve(path, argv, envp);
-	free(path);
-	perror("pipex");
-	exit (1);
-}
-
 static int	origin_proc(int d, t_input *ti, char *envp[])
 {
 	int	fd;
 
 	fd = open(ti -> infile, O_RDONLY);
-	if (fd == -1) // some error occured
+	if (fd == -1)
 	{
 		perror(ti -> infile);
 		return (1);
@@ -109,7 +91,7 @@ static int	parent_proc(int d, int pipe_fd[2], t_input *ti, char *envp[])
 	close(pipe_fd[WRITE]);
 	dup2(pipe_fd[READ], STDIN_FILENO);
 	close(pipe_fd[READ]);
-	executor(ti -> cmds[d][0],ti -> cmds[d], envp);
+	executor(ti -> cmds[d][0], ti -> cmds[d], envp);
 	return (1);
 }
 
@@ -118,7 +100,7 @@ static void	out_proc(int d, int pipe_fd[2], t_input *ti, char *envp[])
 	int	fd;
 
 	fd = open(ti -> outfile, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	if (fd == -1) // some error occured
+	if (fd == -1)
 	{
 		perror(ti -> outfile);
 		exit(1);
@@ -128,6 +110,5 @@ static void	out_proc(int d, int pipe_fd[2], t_input *ti, char *envp[])
 	dup2(fd, STDOUT_FILENO);
 	close(pipe_fd[READ]);
 	close(fd);
-	executor(ti -> cmds[d][0],ti -> cmds[d], envp);
+	executor(ti -> cmds[d][0], ti -> cmds[d], envp);
 }
-

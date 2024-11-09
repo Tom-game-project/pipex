@@ -20,7 +20,8 @@ BASIC_SRC = \
 	       src/basic/basic00.c
 
 PIPELINE_SRC = \
-	       src/pipeline/pipeline.c
+	       src/pipeline/pipeline.c \
+               src/pipeline/pipeline2.c
 
 EXECUTOR_SRC = \
 	       src/executer/executor_helper.c
