@@ -12,7 +12,6 @@
 
 #include <stdlib.h>
 
-
 char	*copy_string(char *start, char *end)
 {
 	int		len;
@@ -77,4 +76,3 @@ int	startswith(char *src, char *target)
 	}
 	return (1);
 }
-

@@ -24,7 +24,9 @@ PIPELINE_SRC = \
                src/pipeline/pipeline2.c
 
 EXECUTOR_SRC = \
-	       src/executer/executor_helper.c
+	       src/executer/executor_helper.c \
+	       src/executer/no_allocation.c
+
 
 ARGPARSE_OBJ = $(ARGPARSE_SRC:.c=.o)
 BASIC_OBJ = $(BASIC_SRC:.c=.o)

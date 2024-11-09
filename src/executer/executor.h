@@ -15,4 +15,7 @@
 
 char	*get_cmd_path(char *cmd, char *envp[]);
 
+int		char_count(char *str, char c);
+void	clear_path_list(char **lst);
+
 #endif

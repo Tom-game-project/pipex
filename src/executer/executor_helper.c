@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "../basic/basic.h"
+#include "executor.h"
 
 int	get_path_index(char *envp[])
 {
@@ -26,20 +27,6 @@ int	get_path_index(char *envp[])
 		i++;
 	}
 	return (-1);
-}
-
-int	char_count(char *str, char c)
-{
-	int	count;
-
-	count = 0;
-	while (*str != '\0')
-	{
-		if (*str == c)
-			count++;
-		str++;
-	}
-	return (count);
 }
 
 char	**split_path_string(char *str)
@@ -69,22 +56,13 @@ char	**split_path_string(char *str)
 	return (tmp);
 }
 
-void	clear_path_list(char **lst)
-{
-	while (*lst != NULL)
-	{
-		free(*lst);
-		lst++;
-	}
-}
-
 char	**get_all_path(char *envp[])
 {
 	char	**rlist;
 	char	*str;
 
 	str = envp[get_path_index(envp)];
-	str += 5; // "path="
+	str += 5;
 	rlist = split_path_string(str);
 	return (rlist);
 }
@@ -123,4 +101,3 @@ char	*get_cmd_path(char *cmd, char *envp[])
 	free(file);
 	return (p);
 }
-

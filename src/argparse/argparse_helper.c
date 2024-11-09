@@ -86,8 +86,8 @@ char	***get_cmds(int argc, char *argv[])
 	rlist = (char ***)malloc(sizeof(char **) * (argc - 1 - 2));
 	if (rlist == NULL)
 		return (NULL);
-	i = 0; //  first element is infile
-	while (i + 2 < argc - 1) // last element is outfile
+	i = 0;
+	while (i + 2 < argc - 1)
 	{
 		rlist[i] = get_cmd(argv[i + 2]);
 		i++;
@@ -101,8 +101,8 @@ void	clear_cmds(int argc, char ***cmds)
 	int	i;
 	int	j;
 
-	i = 0;//  first element is infile
-	while (i + 2 < argc - 1)// last element is outfile
+	i = 0;
+	while (i + 2 < argc - 1)
 	{
 		j = 0;
 		while (cmds[i][j] != NULL)
@@ -115,4 +115,3 @@ void	clear_cmds(int argc, char ***cmds)
 	}
 	free(cmds);
 }
-
