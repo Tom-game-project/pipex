@@ -19,4 +19,3 @@ char	*ft_strjoin(char const *s1, char const *s2);
 int		startswith(char *src, char *target);
 
 #endif
-

@@ -38,6 +38,8 @@ void	executor(char *file, char *argv[], char *envp[])
 	path = get_cmd_path(file, envp);
 	if (path == NULL)
 	{
+		write(STDERR_FILENO, file, ft_strlen(file));
+		write(STDERR_FILENO, ": ", 2);
 		write(STDERR_FILENO, CMD_NOT_FOUND, ft_strlen(CMD_NOT_FOUND));
 		free(path);
 		exit (127);

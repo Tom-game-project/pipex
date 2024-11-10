@@ -28,9 +28,6 @@
 #define READ 0
 #define WRITE 1
 
-// error msgs
-#define CMD_NOT_FOUND "command not found\n"
-
 static int	origin_proc(int d, t_input *ti, char *envp[]);
 static int	child_proc(int d, int pipe_fd[2], t_input *ti, char *envp[]);
 static int	parent_proc(int d, int pipe_fd[2], t_input *ti, char *envp[]);
@@ -51,12 +48,14 @@ int	run_pipes(int d, t_input *ti, char *envp[])
 			child_proc(d, pipe_fd, ti, envp);
 		else if (pid == -1)
 			perror("pipex");
-		else if (ti -> cmdlen - 1 == d)
-		{
-			out_proc(d, pipe_fd, ti, envp);
-		}
 		else
-			parent_proc(d, pipe_fd, ti, envp);
+		{
+			wait(NULL);
+			if (ti -> cmdlen - 1 == d)
+				out_proc(d, pipe_fd, ti, envp);
+			else
+				parent_proc(d, pipe_fd, ti, envp);
+		}
 	}
 	return (1);
 }
