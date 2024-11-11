@@ -31,7 +31,7 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
-int	help_message(void)
+int	Usage(void)
 {
 	ft_putstr_fd("Usage: ./pipex infile cmd1 cmd2 [cmd3[...]] outfile\n", 1);
 	ft_putstr_fd("behave like :`< infile cmd1 | cmd2 | cmd3 ... > outfile`\n", 1);
@@ -63,7 +63,7 @@ int	main(int argc, char *argv[], char *envp[])
 	int		status;
 
 	if (argc < 5)
-		help_message();
+		Usage();
 	exit_status = 0;
 	inp = create_input_structure(argc, argv);
 	pid = fork();
