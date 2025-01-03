@@ -39,8 +39,8 @@ int	run_pipes(int d, t_input *ti, char *envp[])
 	int		pipe_fd[2];
 
 	pipe(pipe_fd);
-	if (d == 0)
-		origin_proc(d, ti, envp);
+	if (d == ti->cmdlen - 1)
+		out_proc(d, pipe_fd, ti, envp);
 	else
 	{
 		pid = fork();
@@ -50,9 +50,9 @@ int	run_pipes(int d, t_input *ti, char *envp[])
 			perror("pipex");
 		else
 		{
-			wait(NULL);
-			if (ti -> cmdlen - 1 == d)
-				out_proc(d, pipe_fd, ti, envp);
+			// wait(NULL);
+			if (d == 0)
+				origin_proc(d, ti, envp);
 			else
 				parent_proc(d, pipe_fd, ti, envp);
 		}
@@ -81,7 +81,7 @@ static int	child_proc(int d, int pipe_fd[2], t_input *ti, char *envp[])
 	close(pipe_fd[READ]);
 	dup2(pipe_fd[WRITE], STDOUT_FILENO);
 	close(pipe_fd[WRITE]);
-	run_pipes(d - 1, ti, envp);
+	run_pipes(d + 1, ti, envp);
 	return (1);
 }
 

@@ -68,7 +68,7 @@ int	main(int argc, char *argv[], char *envp[])
 	inp = create_input_structure(argc, argv);
 	pid = fork();
 	if (pid == 0)
-		run_pipes((argc - 2 - 1) - 1, inp, envp);
+		run_pipes(0, inp, envp);
 	else if (pid == -1)
 	{
 	}
