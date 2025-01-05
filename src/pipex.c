@@ -13,7 +13,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
-#include "./basic/basic.h"
 #include "./argparse/private_argparse.h"
 #include "./pipeline/pipeline.h"
 

@@ -23,7 +23,6 @@
 #define READ 0
 #define WRITE 1
 
-
 // run_pipe2
 int	run_pipe2(int d, t_input *ti, char *envp[], int input_fd);
 
@@ -72,12 +71,10 @@ int middle_cmd(int d, t_input *ti, char *envp[], int input_fd)
 	int pipe_fd[2];
 	pid_t pid;
 	int status;
+	int last_status;
 
 	if (pipe(pipe_fd) == -1)
-	{
-		perror("pipe");
-		return (1);
-	}
+		return (perror("pipe"), 1);
 	pid = fork();
 	if (pid == -1) // エラーのとき
 		return (perror("fork"), 1);
@@ -100,9 +97,9 @@ int middle_cmd(int d, t_input *ti, char *envp[], int input_fd)
 	close(pipe_fd[WRITE]);
 	if (input_fd != STDIN_FILENO)
 		close(input_fd);
-	run_pipe2(d + 1, ti, envp, pipe_fd[READ]);
+	last_status = run_pipe2(d + 1, ti, envp, pipe_fd[READ]);
 	waitpid(pid, &status, WUNTRACED);
-	return (0);
+	return (last_status);
 }
 
 int	run_pipe2(int d, t_input *ti, char *envp[], int input_fd)
@@ -116,7 +113,6 @@ int exec_pipe(t_input *ti, char *envp[])
 {
 	int fd;
 
-	// printf("infile \"%s\"\n", ti->infile);
 	fd = open(ti -> infile, O_RDONLY);
 	if (fd == -1)
 	{
