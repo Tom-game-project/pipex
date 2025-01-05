@@ -60,24 +60,14 @@ int	main(int argc, char *argv[], char *envp[])
 	//pid_t	pid;
 	t_input	*inp;
 	int		exit_status;
+	// int err_code;
 	// int		status;
 
 	if (argc < 5)
 		Usage();
 	exit_status = 0;
 	inp = create_input_structure(argc, argv);
-	// run_pipes(0, inp, envp);
-	exec_pipe(inp, envp);
-	//	pid = fork();
-	//	if (pid == 0)
-	//	else if (pid == -1)
-	//	{
-	//	}
-	//	else
-	//	{
-	//		waitpid(pid, &status, WUNTRACED);
-	//		exit_status = WEXITSTATUS(status);
-	//	}
+	exit_status = exec_pipe(inp, envp);
 	clear_cmds(argc, inp -> cmds);
 	free(inp);
 	return (exit_status);
