@@ -22,8 +22,9 @@ typedef struct s_input
 }	t_input;
 
 // int parent_proc(int d, int pipe_fd[2], t_input *ti);
-int		run_pipes(int d, t_input *ti, char *envp[]);
+// int		run_pipes(int d, t_input *ti, char *envp[]);
 // for execute user command
 void	executor(char *file, char *argv[], char *envp[]);
 
+int	exec_pipe(t_input *ti, char *envp[]);
 #endif

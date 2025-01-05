@@ -57,26 +57,27 @@ t_input	*create_input_structure(int argc, char *argv[])
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	pid_t	pid;
+	//pid_t	pid;
 	t_input	*inp;
 	int		exit_status;
-	int		status;
+	// int		status;
 
 	if (argc < 5)
 		Usage();
 	exit_status = 0;
 	inp = create_input_structure(argc, argv);
-	pid = fork();
-	if (pid == 0)
-		run_pipes((argc - 2 - 1) - 1, inp, envp);
-	else if (pid == -1)
-	{
-	}
-	else
-	{
-		waitpid(pid, &status, WUNTRACED);
-		exit_status = WEXITSTATUS(status);
-	}
+	// run_pipes(0, inp, envp);
+	exec_pipe(inp, envp);
+	//	pid = fork();
+	//	if (pid == 0)
+	//	else if (pid == -1)
+	//	{
+	//	}
+	//	else
+	//	{
+	//		waitpid(pid, &status, WUNTRACED);
+	//		exit_status = WEXITSTATUS(status);
+	//	}
 	clear_cmds(argc, inp -> cmds);
 	free(inp);
 	return (exit_status);
