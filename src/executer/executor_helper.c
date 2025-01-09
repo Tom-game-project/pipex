@@ -15,6 +15,9 @@
 #include "../basic/basic.h"
 #include "executor.h"
 
+// test
+#include <stdio.h>
+
 int	get_path_index(char *envp[])
 {
 	int	i;
@@ -56,6 +59,7 @@ char	**split_path_string(char *str)
 	return (tmp);
 }
 
+/// 環境変数を格納した、リストVec<String>を返却する
 char	**get_all_path(char *envp[])
 {
 	char	**rlist;
@@ -91,13 +95,54 @@ char	*get_path(char *file, char *envp[])
 	return (rtmp);
 }
 
+char	*ft_strclone(char *str)
+{
+	char *rstr;
+	char *rstr_tmp;
+
+	rstr = (char *) malloc(sizeof(char) * (ft_strlen(str) + 1));
+	if (rstr == NULL)
+		return (NULL);
+	rstr_tmp = rstr;
+	while (*str != '\0')
+	{
+		*rstr = *str;
+		rstr++;
+		str++;
+	}
+	*rstr = '\0';
+	return (rstr_tmp);
+}
+
+/// 絶対パスでコマンドが指定されていそうな場合
+/// 正直この中のmalloc失敗をキャッチする
+char	*get_path2(char *file)
+{
+	char	*rtmp;
+
+	if (access(file, X_OK) == 0)
+		rtmp = ft_strclone(file);
+	else
+		rtmp = NULL;
+	return (rtmp);
+}
+
+/// 実行可能なファイルのパスを返す、無い場合はNULLを返却するもの
 char	*get_cmd_path(char *cmd, char *envp[])
 {
 	char	*file;
 	char	*p;
 
-	file = ft_strjoin("/", cmd);
-	p = get_path(file, envp);
-	free(file);
-	return (p);
+	if (startswith(cmd, "/") || startswith(cmd, "."))
+	{
+		p = get_path2(cmd);
+		return (p);
+	}
+	else
+	{
+		file = ft_strjoin("/", cmd);
+		p = get_path(file, envp);
+		free(file);
+		return (p);
+	}
 }

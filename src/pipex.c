@@ -21,9 +21,7 @@
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	if (!s)
-		return ;
-	while (*s)
+	while (*s != '\0')
 	{
 		write(fd, s, 1);
 		s++;
@@ -32,8 +30,8 @@ void	ft_putstr_fd(char *s, int fd)
 
 int	Usage(void)
 {
-	ft_putstr_fd("Usage: ./pipex infile cmd1 cmd2 [cmd3[...]] outfile\n", 1);
-	ft_putstr_fd("behave like :`< infile cmd1 | cmd2 | cmd3 ... > outfile`\n", 1);
+	ft_putstr_fd("Usage: ./pipex infile cmd1 cmd2 [cmd3[...]] outfile\n", STDERR_FILENO);
+	ft_putstr_fd("behave like :`< infile cmd1 | cmd2 | cmd3 ... > outfile`\n", STDERR_FILENO);
 	ft_putstr_fd("requires at least 4 arguments\n", 1);
 	exit(1);
 }
@@ -56,11 +54,8 @@ t_input	*create_input_structure(int argc, char *argv[])
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	//pid_t	pid;
 	t_input	*inp;
 	int		exit_status;
-	// int err_code;
-	// int		status;
 
 	if (argc < 5)
 		Usage();
