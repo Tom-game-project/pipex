@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   no_allocation.c                                    :+:      :+:    :+:   */
+/*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/09 18:49:09 by tmuranak          #+#    #+#             */
-/*   Updated: 2025/01/09 19:08:34 by tmuranak         ###   ########.fr       */
+/*   Created: 2025/01/09 19:03:17 by tmuranak          #+#    #+#             */
+/*   Updated: 2025/01/09 19:05:27 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../basic/basic.h"
+#include "executor.h"
 #include <stdlib.h>
+#include <unistd.h>
 
-int	char_count(char *str, char c)
+/// 実行可能なファイルのパスを返す、無い場合はNULLを返却するもの
+char	*get_cmd_path(char *cmd, char *envp[])
 {
-	int	count;
+	char	*file;
+	char	*p;
 
-	count = 0;
-	while (*str != '\0')
+	if (startswith(cmd, "/") || startswith(cmd, "."))
 	{
-		if (*str == c)
-			count++;
-		str++;
+		p = get_path2(cmd);
+		return (p);
 	}
-	return (count);
-}
-
-void	clear_path_list(char **lst)
-{
-	while (*lst != NULL)
+	else
 	{
-		free(*lst);
-		lst++;
+		file = ft_strjoin("/", cmd);
+		p = get_path(file, envp);
+		free(file);
+		return (p);
 	}
 }

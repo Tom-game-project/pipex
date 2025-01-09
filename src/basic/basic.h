@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:30:44 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/11/07 19:36:52 by tmuranak         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:08:35 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,5 @@ int		ft_strlen(char *str);
 char	*ft_strjoin(char const *s1, char const *s2);
 int		startswith(char *src, char *target);
 
+char	*ft_strclone(char *str);
 #endif

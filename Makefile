@@ -25,6 +25,7 @@ PIPELINE_SRC = \
 
 EXECUTOR_SRC = \
 	       src/executer/executor_helper.c \
+	       src/executer/executor.c\
 	       src/executer/no_allocation.c
 
 
