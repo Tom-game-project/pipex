@@ -13,10 +13,13 @@
 #ifndef BASIC_H
 # define BASIC_H
 
+#include <stdbool.h>
+
 char	*copy_string(char *start, char *end);
 int		ft_strlen(char *str);
 char	*ft_strjoin(char const *s1, char const *s2);
 int		startswith(char *src, char *target);
-
+bool ft_streq(char *a, char *b);
 char	*ft_strclone(char *str);
+
 #endif

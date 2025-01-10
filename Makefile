@@ -56,11 +56,11 @@ ARCHIVES = \
 
 # Main pipex
 MAIN_SRC = src/pipex.c
-MAIN_TARGET = pipex
+NAME = pipex
 
-all: $(MAIN_TARGET)
+all: $(NAME)
 
-$(MAIN_TARGET): $(MAIN_SRC) $(ARCHIVES)
+$(NAME): $(MAIN_SRC) $(ARCHIVES)
 	$(CC) $(CFLAGS) $(MAIN_SRC) $(ARCHIVES) -o $@
 
 # for test

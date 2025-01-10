@@ -22,7 +22,7 @@
 #define WRITE 1
 
 // run_pipe2
-int	run_pipe2(int d, t_input *ti, char *envp[], int input_fd);
+int	run_pipe(int d, t_input *ti, char *envp[], int input_fd);
 
 int	last_cmd(int d, t_input *ti, char *envp[], int input_fd)
 {
@@ -77,11 +77,11 @@ int	middle_cmd(int d, t_input *ti, char *envp[], int input_fd)
 	close(pipe_fd[WRITE]);
 	if (input_fd != STDIN_FILENO)
 		close(input_fd);
-	last_status = run_pipe2(d + 1, ti, envp, pipe_fd[READ]);
+	last_status = run_pipe(d + 1, ti, envp, pipe_fd[READ]);
 	return ((waitpid(pid, &status, WUNTRACED), last_status));
 }
 
-int	run_pipe2(int d, t_input *ti, char *envp[], int input_fd)
+int	run_pipe(int d, t_input *ti, char *envp[], int input_fd)
 {
 	if (d == ti->cmdlen - 1)
 		return (last_cmd(d, ti, envp, input_fd));
@@ -98,5 +98,5 @@ int	exec_pipe(t_input *ti, char *envp[])
 		perror(ti->infile);
 		return (1);
 	}
-	return (run_pipe2(0, ti, envp, fd));
+	return (run_pipe(0, ti, envp, fd));
 }
