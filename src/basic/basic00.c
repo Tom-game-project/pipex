@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:30:54 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/11/07 20:29:16 by tmuranak         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:09:53 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,23 @@ int	startswith(char *src, char *target)
 		src++;
 	}
 	return (1);
+}
+
+char	*ft_strclone(char *str)
+{
+	char	*rstr;
+	char	*rstr_tmp;
+
+	rstr = (char *)malloc(sizeof(char) * (ft_strlen(str) + 1));
+	if (rstr == NULL)
+		return (NULL);
+	rstr_tmp = rstr;
+	while (*str != '\0')
+	{
+		*rstr = *str;
+		rstr++;
+		str++;
+	}
+	*rstr = '\0';
+	return (rstr_tmp);
 }

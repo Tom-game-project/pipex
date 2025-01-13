@@ -6,14 +6,17 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:31:15 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/11/07 19:36:32 by tmuranak         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:06:19 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
 #include "../basic/basic.h"
 #include "executor.h"
+#include <stdlib.h>
+#include <unistd.h>
+
+// test
+#include <stdio.h>
 
 int	get_path_index(char *envp[])
 {
@@ -56,6 +59,7 @@ char	**split_path_string(char *str)
 	return (tmp);
 }
 
+/// 環境変数を格納した、リストVec<String>を返却する
 char	**get_all_path(char *envp[])
 {
 	char	**rlist;
@@ -70,7 +74,7 @@ char	**get_all_path(char *envp[])
 char	*get_path(char *file, char *envp[])
 {
 	char	*joined;
-	char	*rtmp;	
+	char	*rtmp;
 	char	**rlist;
 	char	**rlist_tmp;
 
@@ -91,13 +95,15 @@ char	*get_path(char *file, char *envp[])
 	return (rtmp);
 }
 
-char	*get_cmd_path(char *cmd, char *envp[])
+/// 絶対パスでコマンドが指定されていそうな場合
+/// 正直この中のmalloc失敗をキャッチする
+char	*get_path2(char *file)
 {
-	char	*file;
-	char	*p;
+	char	*rtmp;
 
-	file = ft_strjoin("/", cmd);
-	p = get_path(file, envp);
-	free(file);
-	return (p);
+	if (access(file, X_OK) == 0)
+		rtmp = ft_strclone(file);
+	else
+		rtmp = NULL;
+	return (rtmp);
 }

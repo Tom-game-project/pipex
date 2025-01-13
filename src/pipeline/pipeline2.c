@@ -14,12 +14,10 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 
-#include <errno.h>
 #include <stdio.h>
 
 #include <fcntl.h>
 #include "../basic/basic.h"
-#include "../argparse/private_argparse.h"
 #include "../executer/executor.h"
 
 #include "pipeline.h"

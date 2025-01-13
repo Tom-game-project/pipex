@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   basic.h                                            :+:      :+:    :+:   */
+/*   basic01.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 19:30:44 by tmuranak          #+#    #+#             */
-/*   Updated: 2025/01/10 19:56:18 by tmuranak         ###   ########.fr       */
+/*   Created: 2025/01/10 19:55:30 by tmuranak          #+#    #+#             */
+/*   Updated: 2025/01/10 19:56:53 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BASIC_H
-# define BASIC_H
+#include "basic.h"
+#include <stdbool.h>
 
-# include <stdbool.h>
-
-char	*copy_string(char *start, char *end);
-int		ft_strlen(char *str);
-char	*ft_strjoin(char const *s1, char const *s2);
-int		startswith(char *src, char *target);
-bool	ft_streq(char *a, char *b);
-char	*ft_strclone(char *str);
-
-#endif
+/// 同じ文字列かどうかを判定する
+bool	ft_streq(char *a, char *b)
+{
+	if (ft_strlen(a) != ft_strlen(b))
+		return (false);
+	else
+	{
+		while (*a != '\0')
+		{
+			if (*a != *b)
+				return (false);
+			a++;
+			b++;
+		}
+		return (true);
+	}
+}
