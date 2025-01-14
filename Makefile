@@ -17,7 +17,8 @@ ARGPARSE_SRC = \
 	       src/argparse/argparse_helper.c
 
 BASIC_SRC = \
-	       src/basic/basic00.c
+	       src/basic/basic00.c\
+	       src/basic/basic01.c
 
 PIPELINE_SRC = \
 	       src/pipeline/pipeline.c \

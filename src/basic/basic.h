@@ -21,5 +21,5 @@ char	*ft_strjoin(char const *s1, char const *s2);
 int		startswith(char *src, char *target);
 bool	ft_streq(char *a, char *b);
 char	*ft_strclone(char *str);
-
+void	ft_putstr_fd(char *s, int fd);
 #endif

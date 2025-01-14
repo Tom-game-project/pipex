@@ -11,18 +11,24 @@
 /* ************************************************************************** */
 
 #include "pipeline.h"
+#include "../basic/basic.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
-// macros
 #define READ 0
 #define WRITE 1
 
-// run_pipe2
 int	run_pipe(int d, t_input *ti, char *envp[], int input_fd);
+
+void	handle_file_error(const char *filename)
+{
+	ft_putstr_fd("pipex: ", STDERR_FILENO);
+	perror(filename);
+	exit(1);
+}
 
 int	last_cmd(int d, t_input *ti, char *envp[], int input_fd)
 {
@@ -41,7 +47,11 @@ int	last_cmd(int d, t_input *ti, char *envp[], int input_fd)
 		{
 			fd = open(ti->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (fd == -1)
-				exit((perror("open output file"), 1));
+			{
+				ft_putstr_fd("pipex: ", STDERR_FILENO);
+				perror(ti->outfile);
+				exit(1);
+			}
 			close((dup2(fd, STDOUT_FILENO), fd));
 		}
 		executor(ti->cmds[d][0], ti->cmds[d], envp);
@@ -67,10 +77,23 @@ int	middle_cmd(int d, t_input *ti, char *envp[], int input_fd)
 		return (perror("fork"), 1);
 	if (pid == 0)
 	{
+		if (input_fd != STDIN_FILENO)
+		{
+			if (d == 0 && ti->infile)
+			{
+				close(input_fd);
+				input_fd = open(ti->infile, O_RDONLY);
+				if (input_fd == -1)
+				{
+					ft_putstr_fd("pipex: ", STDERR_FILENO);
+					perror(ti->infile);
+					exit(1);
+				}
+			}
+			close((dup2(input_fd, STDIN_FILENO), input_fd));
+		}
 		dup2(pipe_fd[WRITE], STDOUT_FILENO);
 		(close(pipe_fd[WRITE]), close(pipe_fd[READ]));
-		if (input_fd != STDIN_FILENO)
-			close((dup2(input_fd, STDIN_FILENO), input_fd));
 		executor(ti->cmds[d][0], ti->cmds[d], envp);
 		exit((perror("executor"), 1));
 	}
@@ -90,13 +113,5 @@ int	run_pipe(int d, t_input *ti, char *envp[], int input_fd)
 
 int	exec_pipe(t_input *ti, char *envp[])
 {
-	int	fd;
-
-	fd = open(ti->infile, O_RDONLY);
-	if (fd == -1)
-	{
-		perror(ti->infile);
-		return (1);
-	}
-	return (run_pipe(0, ti, envp, fd));
+	return (run_pipe(0, ti, envp, STDIN_FILENO));
 }

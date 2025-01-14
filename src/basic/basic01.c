@@ -12,6 +12,7 @@
 
 #include "basic.h"
 #include <stdbool.h>
+#include <unistd.h>
 
 /// 同じ文字列かどうかを判定する
 bool	ft_streq(char *a, char *b)
@@ -28,5 +29,14 @@ bool	ft_streq(char *a, char *b)
 			b++;
 		}
 		return (true);
+	}
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	while (*s != '\0')
+	{
+		write(fd, s, 1);
+		s++;
 	}
 }

@@ -12,21 +12,14 @@
 
 #include "./argparse/private_argparse.h"
 #include "./pipeline/pipeline.h"
+#include "basic/basic.h"
+
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
 // for test
 #include <stdio.h>
-
-void	ft_putstr_fd(char *s, int fd)
-{
-	while (*s != '\0')
-	{
-		write(fd, s, 1);
-		s++;
-	}
-}
 
 int	usage(void)
 {
