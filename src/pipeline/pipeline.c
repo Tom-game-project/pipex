@@ -113,5 +113,5 @@ int	run_pipe(int d, t_input *ti, char *envp[], int input_fd)
 
 int	exec_pipe(t_input *ti, char *envp[])
 {
-	return (run_pipe(0, ti, envp, STDIN_FILENO));
+	return (run_pipe(0, ti, envp, -1));
 }
