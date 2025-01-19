@@ -48,7 +48,6 @@ int	last_cmd(int d, t_input *ti, char *envp[], int input_fd)
 			fd = open(ti->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (fd == -1)
 			{
-				ft_putstr_fd("pipex: ", STDERR_FILENO);
 				perror(ti->outfile);
 				exit(1);
 			}
@@ -85,7 +84,6 @@ int	middle_cmd(int d, t_input *ti, char *envp[], int input_fd)
 				input_fd = open(ti->infile, O_RDONLY);
 				if (input_fd == -1)
 				{
-					ft_putstr_fd("pipex: ", STDERR_FILENO);
 					perror(ti->infile);
 					exit(1);
 				}
