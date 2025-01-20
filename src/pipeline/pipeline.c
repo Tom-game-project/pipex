@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:31:38 by tmuranak          #+#    #+#             */
-/*   Updated: 2025/01/16 17:42:53 by tmuranak         ###   ########.fr       */
+/*   Updated: 2025/01/16 16:56:55 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 #include <unistd.h>
-
 int	run_pipe(int d, t_input *ti, char *envp[], int input_fd)
 {
 	if (d == ti->cmdlen - 1)

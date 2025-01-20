@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:31:27 by tmuranak          #+#    #+#             */
-/*   Updated: 2025/01/16 17:44:47 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/11/07 19:42:06 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ void		executor(char *file, char *argv[], char *envp[]);
 
 int			exec_pipe(t_input *ti, char *envp[]);
 
-int			last_cmd(int d, t_input *ti, char *envp[], int input_fd);
+int	last_cmd(int d, t_input *ti, char *envp[], int input_fd);
 
-int			middle_cmd(int d, t_input *ti, char *envp[], int input_fd);
-
+int	middle_cmd(int d, t_input *ti, char *envp[], int input_fd);
 #endif

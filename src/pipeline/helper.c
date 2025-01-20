@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   helper.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/16 17:41:19 by tmuranak          #+#    #+#             */
-/*   Updated: 2025/01/16 17:44:28 by tmuranak         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "pipeline.h"
 #include "../basic/basic.h"
@@ -106,3 +95,4 @@ int	middle_cmd(int d, t_input *ti, char *envp[], int input_fd)
 	last_status = run_pipe(d + 1, ti, envp, pipe_fd[READ]);
 	return ((waitpid(pid, &status, WUNTRACED), last_status));
 }
+
