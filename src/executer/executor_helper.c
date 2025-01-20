@@ -64,12 +64,8 @@ char	**get_all_path(char *envp[])
 {
 	char	**rlist;
 	char	*str;
-	int path_index;
 
-	path_index = get_path_index(envp);
-	if (path_index == -1)
-		return (NULL);
-	str = envp[path_index];
+	str = envp[get_path_index(envp)];
 	str += 5;
 	rlist = split_path_string(str);
 	return (rlist);
@@ -83,8 +79,6 @@ char	*get_path(char *file, char *envp[])
 	char	**rlist_tmp;
 
 	rlist = get_all_path(envp);
-	if (rlist == NULL)
-		return (NULL);
 	rtmp = NULL;
 	rlist_tmp = rlist;
 	while (*rlist != NULL)

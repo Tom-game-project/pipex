@@ -36,7 +36,8 @@ void	write_outfile(int *fd, char *filename)
 	{
 		*fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (*fd == -1)
-			(perror(filename), exit(1));
+			(ft_putstr_fd("pipex: ", STDERR_FILENO), \
+			perror(filename), exit(1));
 		close((dup2(*fd, STDOUT_FILENO), *fd));
 	}
 }
@@ -71,7 +72,8 @@ bool	read_infile(int *input_fd, char *filename)
 	{
 		*input_fd = (close(*input_fd), open(filename, O_RDONLY));
 		if (*input_fd == -1)
-			( perror(filename), exit(1));
+			(ft_putstr_fd("pipex: ", STDERR_FILENO), \
+		perror(filename), exit(1));
 	}
 	return (true);
 }
