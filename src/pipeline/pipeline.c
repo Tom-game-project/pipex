@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:31:38 by tmuranak          #+#    #+#             */
-/*   Updated: 2025/01/16 16:56:55 by tmuranak         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:58:49 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,6 @@ void	handle_file_error(const char *filename)
 	exit(1);
 }
 
-void	write_outfile(int *fd, char *filename)
-{
-	if (filename)
-	{
-		*fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (*fd == -1)
-			(ft_putstr_fd("pipex: ", STDERR_FILENO), \
-			perror(filename), exit(1));
-		close((dup2(*fd, STDOUT_FILENO), *fd));
-	}
-}
-
 int	last_cmd(int d, t_input *ti, char *envp[], int input_fd)
 {
 	pid_t	pid;
@@ -55,7 +43,17 @@ int	last_cmd(int d, t_input *ti, char *envp[], int input_fd)
 	{
 		if (input_fd != STDIN_FILENO)
 			close((dup2(input_fd, STDIN_FILENO), input_fd));
-		write_outfile(&fd, ti->outfile);
+		if (ti->outfile)
+		{
+			fd = open(ti->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd == -1)
+			{
+				ft_putstr_fd("pipex: ", STDERR_FILENO);
+				perror(ti->outfile);
+				exit(1);
+			}
+			close((dup2(fd, STDOUT_FILENO), fd));
+		}
 		executor(ti->cmds[d][0], ti->cmds[d], envp);
 		exit((perror("executor"), 1));
 	}
@@ -63,19 +61,6 @@ int	last_cmd(int d, t_input *ti, char *envp[], int input_fd)
 		close(input_fd);
 	waitpid(pid, &status, WUNTRACED);
 	return (WEXITSTATUS(status));
-}
-
-/// ファイルを適切に開けた場合は、trueを返却します
-bool	read_infile(int *input_fd, char *filename)
-{
-	if (filename)
-	{
-		*input_fd = (close(*input_fd), open(filename, O_RDONLY));
-		if (*input_fd == -1)
-			(ft_putstr_fd("pipex: ", STDERR_FILENO), \
-		perror(filename), exit(1));
-	}
-	return (true);
 }
 
 int	middle_cmd(int d, t_input *ti, char *envp[], int input_fd)
@@ -93,8 +78,20 @@ int	middle_cmd(int d, t_input *ti, char *envp[], int input_fd)
 	if (pid == 0)
 	{
 		if (input_fd != STDIN_FILENO)
-			d == 0 && read_infile(&input_fd, ti->infile) && \
+		{
+			if (d == 0 && ti->infile)
+			{
+				close(input_fd);
+				input_fd = open(ti->infile, O_RDONLY);
+				if (input_fd == -1)
+				{
+					ft_putstr_fd("pipex: ", STDERR_FILENO);
+					perror(ti->infile);
+					exit(1);
+				}
+			}
 			close((dup2(input_fd, STDIN_FILENO), input_fd));
+		}
 		dup2(pipe_fd[WRITE], STDOUT_FILENO);
 		(close(pipe_fd[WRITE]), close(pipe_fd[READ]));
 		executor(ti->cmds[d][0], ti->cmds[d], envp);
