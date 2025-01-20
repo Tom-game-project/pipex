@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:31:15 by tmuranak          #+#    #+#             */
-/*   Updated: 2025/01/09 19:06:19 by tmuranak         ###   ########.fr       */
+/*   Updated: 2025/01/20 18:14:23 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	**get_all_path(char *envp[])
 {
 	char	**rlist;
 	char	*str;
-	int	path_index;
+	int		path_index;
 
 	path_index = get_path_index(envp);
 	if (path_index == -1)
