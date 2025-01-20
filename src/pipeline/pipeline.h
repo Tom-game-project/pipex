@@ -24,8 +24,4 @@ typedef struct s_input
 void		executor(char *file, char *argv[], char *envp[]);
 
 int			exec_pipe(t_input *ti, char *envp[]);
-
-int	last_cmd(int d, t_input *ti, char *envp[], int input_fd);
-
-int	middle_cmd(int d, t_input *ti, char *envp[], int input_fd);
 #endif

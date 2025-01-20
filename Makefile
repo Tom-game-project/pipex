@@ -21,7 +21,6 @@ BASIC_SRC = \
 	       src/basic/basic01.c
 
 PIPELINE_SRC = \
-	       src/pipeline/helper.c \
 	       src/pipeline/pipeline.c \
                src/pipeline/pipeline2.c
 
