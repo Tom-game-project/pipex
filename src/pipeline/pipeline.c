@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:31:38 by tmuranak          #+#    #+#             */
-/*   Updated: 2025/01/21 17:00:16 by tmuranak         ###   ########.fr       */
+/*   Updated: 2025/01/21 17:22:35 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ bool	read_infile(int *input_fd, char *filename)
 	{
 		*input_fd = (close(*input_fd), open(filename, O_RDONLY));
 		if (*input_fd == -1)
-			(perror(filename), exit(1));
+			perror(filename);
 	}
 	return (true);
 }
