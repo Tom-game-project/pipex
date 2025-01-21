@@ -23,13 +23,6 @@
 
 int	run_pipe(int d, t_input *ti, char *envp[], int input_fd);
 
-void	handle_file_error(const char *filename)
-{
-	ft_putstr_fd("pipex: ", STDERR_FILENO);
-	perror(filename);
-	exit(1);
-}
-
 void write_outfile(char *filename)
 {
 	int fd;
@@ -68,7 +61,6 @@ int	last_cmd(int d, t_input *ti, char *envp[], int input_fd)
 	return (WEXITSTATUS(status));
 }
 
-
 bool read_infile(int *input_fd, char *filename)
 {
 	if (filename)
@@ -78,6 +70,16 @@ bool read_infile(int *input_fd, char *filename)
 			(perror(filename), exit(1));
 	}
 	return (true);
+}
+
+void	connect_pipe(int d, int input_fd, char *filename)
+{
+	if (input_fd != STDIN_FILENO)
+	{
+		if (d == 0)
+			read_infile(&input_fd, filename);
+		close((dup2(input_fd, STDIN_FILENO), input_fd));
+	}
 }
 
 int	middle_cmd(int d, t_input *ti, char *envp[], int input_fd)
@@ -94,12 +96,7 @@ int	middle_cmd(int d, t_input *ti, char *envp[], int input_fd)
 		return (perror("fork"), 1);
 	if (pid == 0)
 	{
-		if (input_fd != STDIN_FILENO)
-		{
-			if (d == 0 && ti->infile)
-				read_infile(&input_fd, ti->infile);
-			close((dup2(input_fd, STDIN_FILENO), input_fd));
-		}
+		connect_pipe(d, input_fd, ti->infile);
 		dup2(pipe_fd[WRITE], STDOUT_FILENO);
 		(close(pipe_fd[WRITE]), close(pipe_fd[READ]));
 		executor(ti->cmds[d][0], ti->cmds[d], envp);
@@ -116,7 +113,8 @@ int	run_pipe(int d, t_input *ti, char *envp[], int input_fd)
 {
 	if (d == ti->cmdlen - 1)
 		return (last_cmd(d, ti, envp, input_fd));
-	return (middle_cmd(d, ti, envp, input_fd));
+	else
+		return (middle_cmd(d, ti, envp, input_fd));
 }
 
 int	exec_pipe(t_input *ti, char *envp[])
