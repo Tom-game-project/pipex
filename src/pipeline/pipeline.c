@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:31:38 by tmuranak          #+#    #+#             */
-/*   Updated: 2025/01/09 18:58:49 by tmuranak         ###   ########.fr       */
+/*   Updated: 2025/01/21 17:00:16 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 
 int	run_pipe(int d, t_input *ti, char *envp[], int input_fd);
 
-void write_outfile(char *filename)
+void	write_outfile(char *filename)
 {
-	int fd;
+	int	fd;
 
 	if (filename)
 	{
@@ -35,7 +35,7 @@ void write_outfile(char *filename)
 			perror(filename);
 			exit(1);
 		}
-		 close((dup2(fd, STDOUT_FILENO), fd));
+		close((dup2(fd, STDOUT_FILENO), fd));
 	}
 }
 
@@ -51,7 +51,7 @@ int	last_cmd(int d, t_input *ti, char *envp[], int input_fd)
 	{
 		if (input_fd != STDIN_FILENO)
 			close((dup2(input_fd, STDIN_FILENO), input_fd));
-	       	write_outfile(ti->outfile);
+		write_outfile(ti->outfile);
 		executor(ti->cmds[d][0], ti->cmds[d], envp);
 		exit((perror("executor"), 1));
 	}
@@ -61,7 +61,7 @@ int	last_cmd(int d, t_input *ti, char *envp[], int input_fd)
 	return (WEXITSTATUS(status));
 }
 
-bool read_infile(int *input_fd, char *filename)
+bool	read_infile(int *input_fd, char *filename)
 {
 	if (filename)
 	{
@@ -107,17 +107,4 @@ int	middle_cmd(int d, t_input *ti, char *envp[], int input_fd)
 		close(input_fd);
 	last_status = run_pipe(d + 1, ti, envp, pipe_fd[READ]);
 	return ((waitpid(pid, &status, WUNTRACED), last_status));
-}
-
-int	run_pipe(int d, t_input *ti, char *envp[], int input_fd)
-{
-	if (d == ti->cmdlen - 1)
-		return (last_cmd(d, ti, envp, input_fd));
-	else
-		return (middle_cmd(d, ti, envp, input_fd));
-}
-
-int	exec_pipe(t_input *ti, char *envp[])
-{
-	return (run_pipe(0, ti, envp, -1));
 }
