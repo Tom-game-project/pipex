@@ -96,7 +96,7 @@ clean:
 	rm -rf $(OBJS) $(ARCHIVES)
 
 fclean: clean
-	rm -f $(MAIN_TARGET)
+	rm -f $(NAME)
 
 re: fclean all
 
